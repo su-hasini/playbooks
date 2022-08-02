@@ -1,0 +1,27 @@
+---
+- name: install apache2
+  hosts: all
+  tasks:
+    - name: install
+      apt:
+        name: apache2
+        state: present
+        update_cache: yes
+    - name: copy
+      copy:
+        content: "how ere chunchuuu"
+        dest: /var/www/html/index.html
+    - name: restart
+      service:
+        name: apache2
+        state: restarted
+    - name: url response
+      uri:
+        url: http://172.31.90.221
+        status_code: 200
+    - name: url response
+      uri:
+        url: http://44.202.228.233
+        status_code: 200
+...
+            

@@ -1,0 +1,30 @@
+---
+- name: using handlers
+  hosts: all
+  tasks:
+    - name: install apache2
+      apt:
+        name: apache2
+        state: present
+        update_cache: yes
+    - name: modify index.html file
+      copy:
+        content: "how are you" 
+        dest: /var/www/html/index.html
+      notify: Restart apache2
+  handlers:
+    - name: Restart apache2
+      service:
+        name: apache2
+        state: restarted
+- name: check url
+  hosts: all
+  tasks:
+    - uri:
+        url: "{{item}}"
+        status_code: 200
+      with_items:
+        - http://172.31.94.99
+        - http://172.31.85.204       
+...
+
